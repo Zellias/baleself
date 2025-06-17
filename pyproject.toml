@@ -5,7 +5,7 @@ authors = [
     { name = "Amirabolfazl Alipour", email = "amyrabwalfdll1389@gmail.com" },
     { name = "Hossein Ranganis", email = "wabbit.space@gmail.com" },
 ]
-description = "A python library for create selfbots in bale!"
+description = "A Python library for interacting with Bale Messenger via Selenium automation."
 readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
