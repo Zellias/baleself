@@ -39,4 +39,4 @@
 
 ## 👨‍💻 توسعه‌دهنده
 
-این پروژه توسط **حسین رنگانی** (Hossein Rangani) با نام کاربری گیت‌هاب [@zellias](https://github.com/zellias) و **amir abolfazle** با نام کاربری گیت‌هاب [@amirabolfazle](https://github.com/amirabolfazle) توسعه داده شده است.
+این پروژه توسط **حسین رنگانی** (Hossein Rangani) با نام کاربری گیت‌هاب [@zellias](https://github.com/zellias) و **Amirabolfazl Alipour** با نام کاربری گیت‌هاب [@amirabolfazle](https://github.com/amirabolfazle) توسعه داده شده است.
