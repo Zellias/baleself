@@ -134,6 +134,9 @@ def join_room(username):
         wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[4]/button")
         time.sleep(3)
 
+def welcome():
+    wait_and_click(driver, By.CSS_SELECTOR, "RLottie_Container__dgchP")
+
 def reply_message(data_sid,message):
     """
     Replies to a message with the given data_sid.
@@ -239,6 +242,7 @@ def read_last_messages(handle_message):
                     for btn in btns:
                         try:
                             btn.click()
+                            open_chat("6168101635")
                         except:
                             continue
                     for _ in range(2):
@@ -305,7 +309,6 @@ def run():
     while True:
         try:
             read_last_messages(lambda msg: bot._handle_message(msg))
-            time.sleep(0.01)
         except KeyboardInterrupt:
             print("\nStopping message watch...")
             break
