@@ -10,7 +10,7 @@ import functools
 from typing import Callable, Dict, Any, List, Pattern
 from enum import Enum
 import re
-from .browser_manager import get_chrome_driver,wait_and_click,wait_and_write,wait_and_find,get_html_text,emulate_type,get_element_text,get_image_as_base64,extract_user_info,extract_group_info,extract_channel_info,right_click_element
+from .browser_manager import get_chrome_driver,wait_and_click,wait_and_write,wait_and_find,get_html_text,emulate_type,get_element_text,get_image_as_base64,extract_user_info,extract_group_info,extract_channel_info,right_click_element,wait_and_get
 from .models import Message, Event, EventType,User,Group,Channel
 from selenium.webdriver import ActionChains
 
@@ -106,7 +106,7 @@ def get_current_url(driver):
     return driver.current_url
 
 def login():
-    driver.get("https://web.bale.ai/login?redirectTo=/chat")
+    driver.get("https://web.bale.ai/login?redirectTo=/chat?uid=11")
     wait_and_click(driver, By.XPATH, '/html/body/div[1]/div[1]/div/div[2]/button')
     wait_and_click(driver,By.XPATH,"/html/body/div[1]/div[1]/div/div/div/div[3]/div[2]/div/button")
     phone = input("Phone number: ")
@@ -117,9 +117,13 @@ def login():
     wait_and_write(driver,By.XPATH,"/html/body/div[1]/div[1]/div/div[2]/div[1]/div[1]/div[2]/fieldset/div/input",code)
     time.sleep(2)
     wait_and_click(driver,By.XPATH,"/html/body/div[1]/div[1]/div/div[2]/div[2]/div/button")
+    open_chat(11)
 
 def open_chat(user_id):
     driver.get(f"https://web.bale.ai/chat?uid={user_id}")
+
+def open_uchat(username):
+    driver.execute_script("window.location.href = arguments[0];", f"https://web.bale.ai/@{username.split('@')[1]}")
 
 def send_message(message_text):
     while True:
@@ -129,13 +133,48 @@ def send_message(message_text):
         except:
             pass
 
+def make_room(room_name):
+        start_index = "ble.ir"
+        wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[2]/div[1]/div[3]")
+        wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[2]/div[2]/div/ul/div[5]")
+        wait_and_write(driver, By.XPATH, "/html/body/div[4]/div/div/div[2]/div/div[2]/fieldset/div/input",room_name)
+        wait_and_click(driver, By.XPATH, "/html/body/div[4]/div/div/div[3]/button[1]")
+        wait_and_click(driver, By.XPATH, "/html/body/div[5]/div/div/div[2]/div[2]/div/div/div[1]")
+        wait_and_click(driver, By.XPATH, '//*[@aria-label="ساخت گروه"]')
+        time.sleep(0.5)
+        invite_link = wait_and_get(driver,'//*[@placeholder="متن ارسالی را بنویسید"]')
+        open_chat(11)
+        return str(invite_link).replace("\n"," ")
+
 def join_room(username):
-        driver.execute_script("window.location.href = arguments[0];", f"https://web.bale.ai/@{username.split('@')[1]}")
-        wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[4]/button")
-        time.sleep(3)
+        try:
+            driver.execute_script("window.location.href = arguments[0];", f"https://web.bale.ai/@{username.split('@')[1]}")
+            wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[3]/button")
+        except:
+            print(f"Cannot Join {username}. But I Saw Messages!")
+            time.sleep(0.5)
+            open_chat(486910547)
+
+def send_voice(length):
+        if length<=10:
+            wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[3]/div/div[7]")
+            time.sleep(length)
+            wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[3]/div/div[1]/div[3]/button[3]")
+        else:
+            send_message("<=10s")
+
+def join_voice():
+        wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[1]/div[2]/div/div/button")
+        # time.sleep()
+        wait_and_click(driver, By.XPATH, "/html/body/div[6]/div/div/div/div[3]/button")
+        wait_and_click(driver, By.XPATH, "/html/body/div[6]/div/div/div[1]/div/div[1]/div[1]")
+
+def leave_voice():
+    # wait_and_click(driver, By.XPATH, "/html/body/div[6]/div/div/div[3]/div/div[2]/div[1]/div")
+    open_chat(6168101635)
 
 def welcome():
-    wait_and_click(driver, By.CSS_SELECTOR, "RLottie_Container__dgchP")
+    wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[2]/div[1]/div/div[2]")
 
 def reply_message(data_sid,message):
     """
@@ -152,11 +191,13 @@ def reply_message(data_sid,message):
     emulate_type(driver, By.ID, "editable-message-text", message)
 
 def send_gift(amount):
-    wait_and_click(driver,By.XPATH,'/html/body/div[1]/div[1]/div/div/div[3]/div[4]/div/div[1]')
-    wait_and_click(driver,By.XPATH,'/html/body/div[1]/div[1]/div/div/div[3]/div[4]/div/ul/li[4]')
+    wait_and_click(driver,By.XPATH,'/html/body/div[1]/div[1]/div/div/div[3]/div[3]/div/div[1]')
+    wait_and_click(driver,By.XPATH,'/html/body/div[1]/div[1]/div/div/div[3]/div[3]/div/ul/li[4]')
+    time.sleep(0.2)
     wait_and_write(driver,By.XPATH,'/html/body/div[6]/div/div/div[2]/div[1]/div[1]/div/fieldset/div/input',str(amount))
-    wait_and_write(driver,By.XPATH,'/html/body/div[6]/div/div/div[2]/div[1]/div[3]/div/div/textarea','By Baleself')
+    wait_and_write(driver,By.XPATH,'/html/body/div[6]/div/div/div[2]/div[1]/div[3]/div/div/textarea','By @RollBack')
     wait_and_click(driver,By.XPATH,'/html/body/div[6]/div/div/div[3]/button')
+    time.sleep(0.2)
     wait_and_click(driver,By.XPATH,'/html/body/div[6]/div/div/div[5]/button')
     wait_and_click(driver,By.XPATH,'/html/body/div[7]/div/div/button')
 
@@ -167,10 +208,35 @@ def load_cached_sids():
                 sid = line.strip()
                 if sid:
                     cached_sids.add(sid)
+def add_user(username,channel_id):
+        try:
+            open_uchat(username)
+            send_message(".")
+            open_chat(channel_id)
+            wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[1]/div[1]/div[2]")
+            wait_and_click(driver, By.XPATH, "/html/body/div[6]/div/div/div[2]/div/div/div/table/div[4]")
+            wait_and_write(driver, By.XPATH, "/html/body/div[7]/div/div/div[2]/div[2]/div/input",username)
+            wait_and_click(driver, By.XPATH, "/html/body/div[7]/div/div/div[2]/div[3]/div/div")
+            wait_and_click(driver, By.XPATH, "/html/body/div[7]/div/div/div[3]/button[1]")
+            open_chat(11)
+        except:
+            send_message("مسخره کردی؟")
+
+def delete_room(channel_id):
+        open_chat(channel_id)
+        wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[1]/div[1]/div[2]")
+        wait_and_click(driver, By.XPATH, "/html/body/div[6]/div/div/div[1]/div[2]/div[2]/div")
+        wait_and_click(driver, By.XPATH, "/html/body/div[6]/div/div/div[1]/div[2]/div[2]/div[2]/div[2]")
+        wait_and_click(driver, By.XPATH, "/html/body/div[7]/div/div/div[2]/div/button[1]")
+
+        open_chat(11)
 
 def add_sid_to_cache(sid):
     with open(CACHE_FILE, "a", encoding="utf-8") as f:
         f.write(f"{sid}\n")
+
+def current_channel_id():
+    return driver.current_url.split("/")[-1].split("=")[1]
 
 def message_handler(func: Callable[[Message], None]):
     """
@@ -202,6 +268,10 @@ def read_last_messages(handle_message):
     try:
         try:
             driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/div[2]/div[3]/div/div[2]/div/div/div[2]/div[1]").click()
+            try:
+                driver.find_element(By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[2]/div[3]/div").click()
+            except:
+                pass
         except:
             pass
         try:
@@ -242,6 +312,7 @@ def read_last_messages(handle_message):
                     for btn in btns:
                         try:
                             btn.click()
+                            time.sleep(0.8)
                             open_chat("6168101635")
                         except:
                             continue

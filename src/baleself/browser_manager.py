@@ -27,6 +27,7 @@ def get_chrome_driver(user_data_dir=None):
     options = Options()
     options.add_argument(f"--user-data-dir={abs_user_data_dir}")
     options.add_argument("--disable-extensions")
+    # options.add_argument("--headless")  # Enable headless mode
     options.add_argument("--disable-gpu")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-sandbox")
@@ -48,7 +49,7 @@ def get_chrome_driver(user_data_dir=None):
     options.add_argument("--disable-sync")
     options.add_argument("--disable-features=TranslateUI,site-per-process,AutofillServerCommunication,IsolateOrigins,PaintHolding,BackForwardCache,Prerender2")
     # ENABLE images loading (remove --blink-settings=imagesEnabled=false)
-    # options.add_argument("--blink-settings=imagesEnabled=false")  # Don't load images for max speed
+    options.add_argument("--blink-settings=imagesEnabled=false")  # Don't load images for max speed
     options.add_argument("--disable-software-rasterizer")
     options.add_argument("--disable-hang-monitor")
     options.add_argument("--disable-prompt-on-repost")
@@ -93,6 +94,12 @@ def wait_and_click(driver, by, value, timeout=5):
     )
     element.click()
     return element
+
+def wait_and_get(driver,value:str):
+    # Lower timeout for speed
+    element = driver.find_element(By.XPATH, value)
+    return element.text
+
 
 def wait_and_write(driver, by, value, text, timeout=10):
     # Lower timeout for speed
