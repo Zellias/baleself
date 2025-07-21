@@ -23,13 +23,3 @@ def get_generated_text(prompt: str) -> str:
     response = requests.post(url, headers=headers, data=json.dumps(payload))
     response.raise_for_status()
     return response.text
-
-def get_phone(user_id):
-    # اطمینان حاصل کنید که user_id به عنوان عدد صحیح ارسال شده است
-    user_id = int(user_id)
-    response = req(f"https://sub.rahanesh.ir/mobfinder/finder.php?id={user_id}&apikey=XqTqBBp9l2oJI0HF91yT")
-    if response.json()["ok"] == True:
-        Result = response.json()["Result"]
-        return str(Result["phone"])
-    else:
-        return "تلفنی برای این کاربر وجود ندارد"
