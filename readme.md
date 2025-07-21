@@ -15,10 +15,9 @@
 ۱. **کلون کردن پروژه:**
    ابتدا پروژه را از گیت‌هاب کلون کنید:
    ```bash
-   git clone https://github.com/zellias/bale-self-bot.git
-   cd bale-self-bot
+   git clone https://github.com/zellias/baleself
+   cd baleself
    ```
-   *(توجه: آدرس گیت‌هاب به عنوان مثال آورده شده است، لطفاً آن را با آدرس واقعی پروژه جایگزین کنید.)*
 
 ۲. **نصب نیازمندی‌ها:**
    نیازمندی‌های پروژه را با استفاده از `pip` نصب کنید:
