@@ -133,11 +133,11 @@ def send_message(message_text):
         except:
             pass
 
-def make_room(room_name):
+def make_chat(chat_name):
         start_index = "ble.ir"
         wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[2]/div[1]/div[3]")
         wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[2]/div[2]/div/ul/div[5]")
-        wait_and_write(driver, By.XPATH, "/html/body/div[4]/div/div/div[2]/div/div[2]/fieldset/div/input",room_name)
+        wait_and_write(driver, By.XPATH, "/html/body/div[4]/div/div/div[2]/div/div[2]/fieldset/div/input",chat_name)
         wait_and_click(driver, By.XPATH, "/html/body/div[4]/div/div/div[3]/button[1]")
         wait_and_click(driver, By.XPATH, "/html/body/div[5]/div/div/div[2]/div[2]/div/div/div[1]")
         wait_and_click(driver, By.XPATH, '//*[@aria-label="ساخت گروه"]')
@@ -146,7 +146,7 @@ def make_room(room_name):
         open_chat(11)
         return str(invite_link).replace("\n"," ")
 
-def join_room(username):
+def join_chat(username):
         try:
             driver.execute_script("window.location.href = arguments[0];", f"https://web.bale.ai/@{username.split('@')[1]}")
             wait_and_click(driver, By.XPATH, "/html/body/div[1]/div[1]/div/div/div[3]/div[3]/button")
