@@ -6,7 +6,7 @@ def req(url):
     if response.status_code == 200:
         return response
     else:
-        return f"{response.status_code} | cannot give content from daradegeapi."
+        return f"{response.status_code} | cannot give content."
 
 def get_generated_text(prompt: str) -> str:
     url = 'https://text.pollinations.ai/'
